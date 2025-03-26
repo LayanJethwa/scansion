@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Scansion</title>
+</head>
+
+<body>
+    <div id="header">
+        <form method="POST" id="go-to-book-form" action="{{ url_for('go_to_book') }}">
+            <label id="go-to-book-text" for="go-to-book">Go to book:</label>
+            <input id="go-to-book" name="go-to-book" type="number" min="1", max="24", onsubmit="this.form.submit()", onblur="this.form.submit()", placeholder="{{ book+1 }}">
+        </form>
+        <form method="POST" id="go-to-line-form" action="{{ url_for('go_to_line') }}">
+            <label id="go-to-line-text" for="go-to-line">Go to line:</label>
+            <input id="go-to-line" name="go-to-line" type="number" min="1", max="{{ raw_text|length+1 }}", onsubmit="this.form.submit()", onblur="this.form.submit()", placeholder="{{ line+1 }}">
+        </form>
+        <p id="show-all-text">Show all:</p>
+        <input id="show-all" type="checkbox">
+    </div>
+
+    {% for line in raw_text %}
+    <div class="line">
+        <p class="line-num">{{ loop.index }}</p>
+        <p class="line-text">{{ line }}</p>
+    </div>
+    {% endfor %}
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var scrollpos = localStorage.getItem('scrollpos');
+            if (scrollpos) window.scrollTo(0, scrollpos);
+            document.getElementsByClassName('line')['{{ line }}'].scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        window.onbeforeunload = function(e) {
+            localStorage.setItem('scrollpos', window.scrollY);
+        };
+    </script>
+</body>
+
+</html>
