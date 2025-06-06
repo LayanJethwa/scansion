@@ -1,0 +1,36 @@
+@font-face {
+    font-family: GentiumPlus;
+    src: url('fonts/GentiumPlus-Regular.ttf');
+}
+
+body {
+  background-color: #222;
+  font-family: "GentiumPlus";
+  margin: 0;
+}
+
+main {
+    text-align: center;
+}
+
+body > main > p {
+  color: #ddd;
+  font-family: "GentiumPlus" !important;
+}
+
+body > main > h1 {
+  text-transform: uppercase;
+  color: #0077ff;
+  font-size: 48px;
+}
+
+body > main > h3 > a {
+  text-transform: uppercase;
+  font-size: 18px;
+  color: #000;
+  background-color: #0077ff;
+  text-decoration: none;
+  padding: 1px 5px;
+  border: 1px solid #0077ff;
+  border-radius: 5px;
+}

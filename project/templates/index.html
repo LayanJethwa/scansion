@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='book.css') }}">
+    <script src="{{ url_for('static', filename='modules/mark.min.js') }}"></script>
+    <script type="text/javascript">
+        var line = "{{ line }}"
+        var clicked = "{{ clicked }}"
+        var syllable_indices = JSON.parse("{{ syllable_indices|tojson }}")
+        var scansion = JSON.parse('{{ scansion|tojson }}')
+        var raw_text = JSON.parse('{{ raw_text|tojson }}'.replace(/(\r\n|\n|\r)/gm, ""))
+        var lines_syllables = JSON.parse('{{ lines_syllables|tojson }}')
+        var enable = "{{ enabled }}"
+     </script>
+    <script src="{{ url_for('static', filename='book.js') }}"></script>
+    <title>Scansion</title>
+</head>
+
+<body>
+    <div id="header">
+        <form method="POST" id="go-to-book-form" action="{{ url_for('go_to_book') }}">
+            <label id="go-to-book-text" for="go-to-book">Go to book:</label>
+            <input id="go-to-book" name="go-to-book" type="number" min="1", max="24", onsubmit="this.form.submit()", onblur="this.form.submit()", placeholder="{{ book+1 }}">
+        </form>
+        <form method="POST" id="go-to-line-form" action="{{ url_for('go_to_line') }}">
+            <label id="go-to-line-text" for="go-to-line">Go to line:</label>
+            <input id="go-to-line" name="go-to-line" type="number" min="1", max="{{ raw_text|length }}", onsubmit="this.form.submit()", onblur="this.form.submit()", placeholder="{{ line+1 }}">
+        </form>
+        <p id="show-all-text">Show all:</p>
+        <form method="POST" action="{{ url_for('show_all') }}">
+            <input type="hidden" id="enable-input" name="enable-input">
+            <input id="show-all" type="checkbox" {% if enabled %}checked{% endif %} onclick="el = document.getElementById('enable-input');
+            if (enable == 1) {el.value = '0'} else if (enable == 0) {el.value = '1'}; this.form.submit();">
+        </form>
+    </div>
+
+    <div id="main-text">
+        {% for line in raw_text %}
+        {% set outer_loop = loop %}
+        <form method="POST" id="second-click-form{{ loop.index0 }}" class="second-click-form" action="{{ url_for('second_click') }}">
+            <div class="line">
+                <p class="line-num">{{ loop.index }}</p>
+                <input type="hidden" name="line-number" value="{{ loop.index }}">
+                <div class="line-text" id="line{{ loop.index0 }}" onclick="if(('{{ loop.index0 }}'==clicked)||enable==1){document.getElementById('second-click-form{{ loop.index0 }}').submit()}
+                else{click_line('{{ loop.index0 }}', 0)}">
+                    {% for syllable in lines_syllables[outer_loop.index0] %}
+                        <span class="line-syllables-{{ outer_loop.index0 }}">{{ syllable }}</span>
+                        {% if loop.index0 < lines_punctuation[outer_loop.index0]|length %}
+                            <span>{{ lines_punctuation[outer_loop.index0][loop.index0]|replace(" ", "&nbsp;")|safe }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div class="arrow-container" id="arrow-container{{ loop.index0 }}">
+                    <button type="button" class="left-arrow" onclick="click_line('{{ loop.index0 }}', multi_index-1)"><</button>
+                    <button type="button" class="right-arrow" onclick="click_line('{{ loop.index0 }}', multi_index+1)">></button>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>
