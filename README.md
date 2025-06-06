@@ -6,9 +6,13 @@ This project is an automated tool I have created, that can scan the metrical str
 The project is made in Python, and I have created a UI for it as well. My hope is that this will be of use both as a teaching tool and a data analysis tool for linguistic means.
 ## Demo
 
-https://layanjethwa.github.io/scansion/
+~~https://layanjethwa.github.io/scansion/~~
 
-This is a PyGame program, compiled with WASM in order to run on a website - loading may be slow.
+~~This is a PyGame program, compiled with WASM in order to run on a website - loading may be slow.~~
+
+https://scansion-computer.vercel.app/
+
+This is not finished yet (the second screen isn't functioning), but I have ported the PyGame program manually to a Flask environment so it runs a lot faster and smoother.
 
 
 ## What does this all mean?
