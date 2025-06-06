@@ -52,6 +52,8 @@ I embarked upon this project as it was interesting to me, and I thought it would
 
 After creating the algorithm and UI, I refactored the entire rendering algorithm to run smoother on lower-end devices, and allow for a *show all* button without sacrificing performance.
 
+The website was previously created with PyGame and hosted on GitHub Pages using WASM, which ran very slowly, and took a while to load. I have now ported it manually to a web app, using a Python Flask backend and HTML/CSS/JS frontend.
+
 
 ## Acknowledgements
 
