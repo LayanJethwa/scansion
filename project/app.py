@@ -27,6 +27,7 @@ def update_book():
     global lines_scansion
     global lines_syllables
     global lines_punctuation
+    global lines_attributes
 
     raw_text = open(os.path.join("project/raw_text/",f"book{book}.txt"),"r", encoding="utf8").readlines()
     with open(os.path.join("project/data/calculations/",f"book{book}"), "rb") as file:
@@ -35,6 +36,8 @@ def update_book():
         lines_syllables = pickle.load(file)
     with open(os.path.join("project/data/syllables/punctuation/",f"book{book}"), "rb") as file:
         lines_punctuation = pickle.load(file)
+    with open(os.path.join("project/data/syllables/attributes/",f"book{book}"), "rb") as file:
+        lines_attributes = pickle.load(file)
 
 update_book()
 
@@ -59,9 +62,15 @@ def index(local_book):
     
 @app.route('/book/<local_book>/line/<local_line>')
 def index_clicked(local_book, local_line):
+    line_scansion = lines_scansion[int(local_line)-1][0]
+    line_scansion = line_scansion.replace("d","-uu").replace("s","--")
     return render_template('clicked.html',
                            book=int(local_book)-1,
-                           line=int(local_line)-1)
+                           line=int(local_line)-1,
+                           lines_syllables=lines_syllables,
+                           lines_punctuation=lines_punctuation,
+                           lines_attributes=lines_attributes,
+                           line_scansion=line_scansion)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -101,5 +110,12 @@ def second_click():
     local_line = int(request.form.get('line-number'))
     return redirect(url_for('index_clicked', local_book=book+1, local_line=local_line))
 
-if __name__ == '__main__':
+@app.route('/back', methods=['POST'])
+def back():
+    global book
+    return redirect(url_for('index', local_book=book+1))
+
+if env.get("DEBUG") == "true":
     app.run(debug=True,host="0.0.0.0", port=env.get("PORT", 5000))
+
+#flask --app scansion run --debug
