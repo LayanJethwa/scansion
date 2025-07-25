@@ -102,8 +102,18 @@ body {
         color: var(--black);
         font-size: 3rem;
         display: inline-flex;
-        align-items: center;
+        align-items: flex-end;
         line-height: 1.3;
+
+        .line-syllables-group {
+            display: flex;
+            flex-direction: column;
+            .line-syllables-image {
+                align-self: center;
+                width: 15px;
+                visibility: hidden;
+            }
+        }
 
         .line-text span{
             margin: 0;

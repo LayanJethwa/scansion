@@ -1,3 +1,12 @@
+:root {
+    --light_blue: rgb(180,203,240);
+    --dark_blue: rgb(92,142,222);
+    --darker_blue: rgb(39,98,192);
+    --dark-grey: rgb(218,220,223);
+    --light_grey: rgb(242,243,245);
+    --black: rgb(0,0,0);
+}
+
 @font-face {
     font-family: GentiumPlus;
     src: url('fonts/GentiumPlus-Regular.ttf');
@@ -8,24 +17,62 @@ body {
     font-size: 5rem;
 }
 
+#arrow-container {
+    background-color: var(--dark-grey);
+    width: fit-content;
+    width: fit-content;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1vw;
+
+    #back-arrow{
+        background-color: var(--light_grey);
+        border: none;
+        color: var(--black);
+        text-align: center;
+        font-size: 20px;
+        font-weight: 1000;
+    }
+}
+
 #line-text {
     text-align: center;
-    width: 75%;
     height: auto;
-    margin: auto;
-    border: red 1px solid;
-    margin-top: 2vw;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 0;
+    margin-bottom: 5vw;
+    margin-top: 1vw;
+    justify-content: center;
+    .syllable-group {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.2vw;
+    }
+    .syllable-containers {
+        display: flex;
+        align-items: center;
+        gap: 1vw;
+        flex-direction: column;
+    }
+    .syllable-containers img, .syllable-containers p {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 #wrapper {
     display: flex;
     margin-top: 2.5vw;
+    align-items: stretch;
 }
 
 #letter-info {
-    border: red 1px solid;
-    width: fit-content;
-    height: fit-content;
+    border: var(--black) 2px solid;
     margin-left: 1vw;
     font-size: 4rem;
     max-width: 25%;
@@ -36,7 +83,6 @@ body {
 }
 
 #categories {
-    border: red 1px solid;
     width: fit-content;
     font-size: 3rem;
     text-align: right;
@@ -48,13 +94,13 @@ body {
         white-space: nowrap;
     }
     #natural-length {
-        margin-top: 2.3vw;
+        margin-top: 1.3vw;
     }
     #positional-length {
-        margin-top: 7.2vw;
+        margin-top: 5.3vw;
     }
     #other-phenomena {
-        margin-top: 7.2vw;
+        margin-top: 4.6vw;
     }
 }
 
@@ -62,13 +108,13 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2.5vw;
-    border: red 1px solid;
+    border: var(--black) 2px solid;
     align-items: center;
     span {
-        border: orange 1px solid;
+        border: var(--dark-grey) 3px solid;
         width: 4vw;
         height: 4vw;
-        margin: 0;
+        margin: 5px;
         padding: 0;
         display: flex;
         flex-direction: column;
@@ -77,13 +123,13 @@ body {
             margin-top: 0.2vw;
         }
     }
-    #long p {
+    #a0 p {
         margin-top: -1.4vw;
     }
-    #short p, #anceps p {
+    #a1 p, #a2 p {
         margin-top: -1.7vw;
     }
-    #lengthening, #muta-cum-liquida, #brevis-in-longo, #correption, #synchisis {
+    #a3, #a4, #a5, #a6, #a7 {
         p {
             font-size: 2.7rem;
             margin-top: -0.2vw;
@@ -92,10 +138,10 @@ body {
             margin-top: 0.5vw;
         }
     }
-    #muta-cum-liquida p {
+    #a4 p {
         margin-top: -0.5vw;
     }
-    #brevis-in-longo {
+    #a5 {
         em {
             margin-top: -1.4vw;
             margin-left: 0.7vw;
@@ -105,7 +151,7 @@ body {
             margin-top: -1.2vw;
         }
     }
-    #correption {
+    #a6 {
         img {
             margin-left: -1.9vw;
         }
@@ -119,7 +165,7 @@ body {
             margin-top: -0.6vw;
         }
     }
-    #synchisis {
+    #a7 {
         img {
             margin-top: 1vw;
         }
@@ -127,15 +173,25 @@ body {
             margin-top: -0.7vw;
         }
     }
-    #diaeresis p {
+    #a8 p {
         margin-top: -1vw;
     }
 }
 
 #description {
-    border: red 1px solid;
-    font-size: 3rem;
+    border: var(--black) 2px solid;
+    font-size: 2.5rem;
     margin-left: 1vw;
     margin-right: 1vw;
-    height: fit-content;
+    width: 35%;
+}
+
+.long {
+    background-color: var(--darker_blue);
+}
+.indeterminate {
+    background-color: var(--dark_blue);
+}
+.short {
+    background-color: var(--light_blue);
 }

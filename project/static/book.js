@@ -50,10 +50,13 @@ function click_line(num, index = 0, second_index = -1) {
         multi_instances = {}
         let els = document.getElementsByClassName("arrow-container")
         for (let i = 0; i < els.length; i++) {els[i].style.visibility = "hidden"}
+        for (image of document.getElementsByClassName("line-syllables-image")) {image.style.visibility = "hidden"}
     }
     if (scansion[num].length > 1) {document.getElementById(`arrow-container${num}`).style.visibility = "visible"}
     if (num in multi_instances) {for (instance in multi_instances[num]) {multi_instances[num][instance].unmark()}}
     multi_instances[num] = []
+
+    for (image of document.getElementsByClassName(`line-syllables-image${num}`)) {image.style.visibility = "visible"}
 
     line_syllables = document.getElementsByClassName(`line-syllables-${num}`)
 
