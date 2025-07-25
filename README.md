@@ -12,7 +12,9 @@ The project is made in Python, and I have created a UI for it as well. My hope i
 
 https://scansion-computer.vercel.app/
 
-This is not finished yet (the second screen isn't functioning), but I have ported the PyGame program manually to a Flask environment so it runs a lot faster and smoother.
+~~This is not finished yet (the second screen isn't functioning), but I have ported the PyGame program manually to a Flask environment so it runs a lot faster and smoother.~~
+
+This is now completed, and runs pretty well.
 
 
 ## What does this all mean?
