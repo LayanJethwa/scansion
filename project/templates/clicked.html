@@ -5,19 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='line.css') }}">
+    <script type="text/javascript">
+        var lines_attributes = JSON.parse('{{ lines_attributes|tojson }}')
+        var lines_syllables = JSON.parse('{{ lines_syllables|tojson }}')
+        var line = "{{ line }}"
+     </script>
     <script src="{{ url_for('static', filename='modules/mark.min.js') }}"></script>
     <script src="{{ url_for('static', filename='line.js') }}"></script>
     <title>Scansion</title>
 </head>
 
 <body>
-    <div id="line-text">Here is some line text let's see if you really wrap</div>
+    <form method="POST" id="back-form" action="{{ url_for('back') }}">
+        <div id="arrow-container">
+            <button type="button" id="back-arrow" onclick="this.form.submit()"><</button>
+        </div>
+    </form>
+    <div id="line-text">
+        {% for syllable in lines_syllables[line] %}
+            <span class="syllable-group">
+                <span id="syllable-container{{ loop.index0 }}" class="syllable-containers">
+                    {% if line_scansion[loop.index0] == "-" %}
+                        <img id="syllable-image{{ loop.index0 }}" class="syllable-images" src="{{ url_for('static', filename='images/long.png') }}" style="visibility: hidden;">
+                    {% else %}
+                        <img id="syllable-image{{ loop.index0 }}" class="syllable-images" src="{{ url_for('static', filename='images/short.png') }}" style="visibility: hidden;">
+                    {% endif %}
+                    <p id="syllable{{ loop.index0 }}" class="syllable" onclick='click_syllable("{{ loop.index0 }}")'>{{ syllable }}</p>
+                </span>
+                <p style="height: 0; transform: translateY(-0.5em);">{{ lines_punctuation[line][loop.index0]|replace(" ", "&nbsp;")|safe }}</p>
+            </span>
+        {% endfor %}
+    </div>
     <div id="wrapper">
         <div id="letter-info">
-            <p>Onset: </p>
-            <p>Nucleus: </p>
-            <p>Coda: </p>
-            <p>Consonant(s) following: </p>
+            <p id="onset">Onset: </p>
+            <p id="nucleus">Nucleus: </p>
+            <p id="coda">Coda: </p>
+            <p id="cluster">Consonant(s) following: </p>
         </div>
         <div id="categories">
             <p id="natural-length">Natural length:</p>
@@ -25,26 +49,26 @@
             <p id="other-phenomena">Other phenomena:</p>
         </div>
         <div id="attributes">
-            <span id="long"><img src="{{ url_for('static', filename='images/long.png') }}"><p>V</p></span>
-            <span id="short"><img src="{{ url_for('static', filename='images/short.png') }}"><p>V</p></span>
-            <span id="anceps"><img src="{{ url_for('static', filename='images/anceps.png') }}"><p>V</p></span>
-            <span id="lengthening"><img src="{{ url_for('static', filename='images/long.png') }}"><p>VCC</p></span>
-            <span id="muta-cum-liquida"><img src="{{ url_for('static', filename='images/anceps.png') }}"><p>Vml</p></span>
-            <span id="brevis-in-longo">
+            <span id="a0"><img src="{{ url_for('static', filename='images/long.png') }}"><p>V</p></span>
+            <span id="a1"><img src="{{ url_for('static', filename='images/short.png') }}"><p>V</p></span>
+            <span id="a2"><img src="{{ url_for('static', filename='images/anceps.png') }}"><p>V</p></span>
+            <span id="a3"><img src="{{ url_for('static', filename='images/long.png') }}"><p>VCC</p></span>
+            <span id="a4"><img src="{{ url_for('static', filename='images/anceps.png') }}"><p>Vml</p></span>
+            <span id="a5">
                 <em>
                     <img src="{{ url_for('static', filename='images/long.png') }}">
                     <img src="{{ url_for('static', filename='images/long.png') }}">
                 </em>
                 <p>-VV</p>
             </span>
-            <span id="correption">
+            <span id="a6">
                 <img id="correption-short" src="{{ url_for('static', filename='images/short.png') }}">
                 <img id="correption-cross" src="{{ url_for('static', filename='images/cross_long.png') }}">
                 <p>V V</p>
             </span>
-            <span id="synchisis"><img src="{{ url_for('static', filename='images/tie.png') }}"><p>V V</p></span>
-            <span id="diaeresis"><p>V̈</p></span>
+            <span id="a7"><img src="{{ url_for('static', filename='images/tie.png') }}"><p>V V</p></span>
+            <span id="a8"><p>V̈</p></span>
         </div>
-        <div id="description">Positional lengthening: A vowel when followed by a consonant cluster or a compound ('ζ', 'ξ' and 'ψ') is lengthened. A consonant of 'λ','μ','ν','ρ','δ' or 'σ' can sometimes act duplicated, also lengthening.</div>
+        <div id="description"></div>
     </div>
 </body>

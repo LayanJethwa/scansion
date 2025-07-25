@@ -47,7 +47,15 @@
                 <div class="line-text" id="line{{ loop.index0 }}" onclick="if(('{{ loop.index0 }}'==clicked)||enable==1){document.getElementById('second-click-form{{ loop.index0 }}').submit()}
                 else{click_line('{{ loop.index0 }}', 0)}">
                     {% for syllable in lines_syllables[outer_loop.index0] %}
-                        <span class="line-syllables-{{ outer_loop.index0 }}">{{ syllable }}</span>
+                        <div class="line-syllables-group">
+                            {% set line_scansion = (scansion[outer_loop.index0] | replace("d","-uu") | replace("s","--"))[2:-2] %}
+                            {% if line_scansion[loop.index0] == "-" %}
+                                <img class="line-syllables-image{{ outer_loop.index0 }} line-syllables-image" src="{{ url_for('static', filename='images/long.png') }}">
+                            {% else %}
+                                <img class="line-syllables-image{{ outer_loop.index0 }} line-syllables-image" src="{{ url_for('static', filename='images/short.png') }}">
+                            {% endif %}
+                            <span class="line-syllables-{{ outer_loop.index0 }}">{{ syllable }}</span>
+                        </div>
                         {% if loop.index0 < lines_punctuation[outer_loop.index0]|length %}
                             <span>{{ lines_punctuation[outer_loop.index0][loop.index0]|replace(" ", "&nbsp;")|safe }}</span>
                         {% endif %}
